@@ -1,7 +1,9 @@
+import java.awt.CardLayout;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 
 import javax.swing.JFrame;
+import javax.swing.UIManager;
 
 
 public class MergeSort {
@@ -13,7 +15,12 @@ class GuiSetup extends JFrame{
 	private static final long serialVersionUID = 1L;
 
 	public GuiSetup(){
-		getContentPane().setLayout(null);
+		try {
+			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+		} catch (Exception e) {
+			
+		}
+		getContentPane().setLayout(new CardLayout());
 		setupGUI();
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
