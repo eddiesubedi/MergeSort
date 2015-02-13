@@ -5,6 +5,8 @@ import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -19,11 +21,22 @@ import javax.swing.border.EmptyBorder;
 
 public class MergeSort {
 	public static void main(String[] args) {
-		GuiSetup guiSetup = new GuiSetup();
+		final GuiSetup guiSetup = new GuiSetup();
+		guiSetup.btnReset.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				guiSetup.inputTxtArea.setText("");
+				guiSetup.outputTextArea.setText("");
+			}
+		});
 	}
 }
 class GuiSetup extends JFrame{
 	private static final long serialVersionUID = 1L;
+	public JTextPane inputTxtArea;
+	public JTextPane outputTextArea;
+	public JButton btnSort;
+	public JButton btnReset;
 
 	public GuiSetup(){
 		try {
@@ -42,7 +55,7 @@ class GuiSetup extends JFrame{
 		setContentPane(contentPane);
 		contentPane.setLayout(new BorderLayout(0, 0));
 		
-		JLabel headingLabel = new JLabel("New label");
+		JLabel headingLabel = new JLabel("Merge sort");
 		headingLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		headingLabel.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		contentPane.add(headingLabel, BorderLayout.NORTH);
@@ -65,7 +78,7 @@ class GuiSetup extends JFrame{
 		centerLeftPanel.add(centerRightTxtPanel, BorderLayout.CENTER);
 		centerRightTxtPanel.setLayout(new CardLayout(0, 0));
 		
-		JTextPane inputTxtArea = new JTextPane();
+		inputTxtArea = new JTextPane();
 		
 		JScrollPane inputScrollPane = new JScrollPane(inputTxtArea);
 		centerRightTxtPanel.add(inputScrollPane);
@@ -84,7 +97,8 @@ class GuiSetup extends JFrame{
 		centerRightPanel.add(centerRightTxtArea, BorderLayout.CENTER);
 		centerRightTxtArea.setLayout(new CardLayout(0, 0));
 		
-		JTextPane outputTextArea = new JTextPane();
+		outputTextArea = new JTextPane();
+		outputTextArea.setEditable(false);
 		
 		JScrollPane outputScrollPane = new JScrollPane(outputTextArea);
 		centerRightTxtArea.add(outputScrollPane);
@@ -93,11 +107,14 @@ class GuiSetup extends JFrame{
 		contentPane.add(buttompanel, BorderLayout.SOUTH);
 		buttompanel.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 		
-		JButton btnSort = new JButton("Sort");
+		btnSort = new JButton("Sort");
 		buttompanel.add(btnSort);
 		
-		JButton btnReset = new JButton("Reset");
+		btnReset = new JButton("Reset");
 		buttompanel.add(btnReset);
+		
+		inputTxtArea.setText("5 6 8 9 7 8 1 0 1123 456 2 3 0 4\n6 8 5 4 5 2 0 20 1 2 4 5");
+		outputTextArea.setText("Sorted List:");
 		
 		setTitle("Merge Sort");
 		setSize((int) (Toolkit.getDefaultToolkit().getScreenSize().getWidth()/4),Toolkit.getDefaultToolkit().getScreenSize().height/2);
