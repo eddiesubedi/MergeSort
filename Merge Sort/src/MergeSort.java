@@ -7,6 +7,7 @@ import java.awt.GridLayout;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Arrays;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -21,14 +22,32 @@ import javax.swing.border.EmptyBorder;
 
 public class MergeSort {
 	public static void main(String[] args) {
-		final GuiSetup guiSetup = new GuiSetup();
-		guiSetup.btnReset.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				guiSetup.inputTxtArea.setText("");
-				guiSetup.outputTextArea.setText("");
-			}
-		});
+		int[] value = {1,2,3,4,5,6,7,8,9,10};
+		sort(value);
+	}
+
+	private static void sort(int value[]) {
+		int leftSize = value.length/2;
+		int rightSize = value.length-leftSize;
+		int[] left = new int[leftSize];
+		int[] right = new int[rightSize];
+		int i = 0;
+		for(i=0; i<leftSize;i++){
+			left[i]=value[i];
+		}
+		for(int j=0;j<rightSize;j++){
+			right[j]=value[i];
+			i++;
+		}
+		if(left.length!=1){
+			sort(left);
+		}
+		if(right.length!=1){
+			sort(right);
+		}
+		System.out.println("LEFT "+Arrays.toString(left));
+		System.out.println("Right "+Arrays.toString(right));
+		System.out.println("=======================");
 	}
 }
 class GuiSetup extends JFrame{
