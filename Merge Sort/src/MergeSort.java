@@ -19,11 +19,12 @@ import javax.swing.border.EmptyBorder;
 
 public class MergeSort {
 	public static void main(String[] args) {
-		int[] value = { 98, 2, 35, 819, 34, 981, 65, 91, 35, 981, 35 };
-		sort(value);
+		int[] value = {8,894,489,8849,849,68,84,84849,849,849,894,89,8484,894,894,849,84 };
+		int[] a = sort(value);
+		System.out.println(Arrays.toString(a));
 	}
 
-	private static void sort(int value[]) {
+	private static int[] sort(int value[]) {
 		int leftSize = value.length / 2;
 		int rightSize = value.length - leftSize;
 		int[] left = new int[leftSize];
@@ -48,15 +49,35 @@ public class MergeSort {
 				right[0] = right[1];
 				right[1] = temp;
 			}
-			System.out.println(Arrays.toString(left));
-			System.out.println(Arrays.toString(right));
-			System.out.println("====================");
 		}
 		if (left.length != 1 && right.length != 1) {
-			sort(left);
-			sort(right);
+			left = sort(left);
+			right = sort(right);
 		}
+		value = merge(left, right);
+		return value;
+	}
 
+	private static int[] merge(int[] left, int[] right) {
+		int totalLength = left.length + right.length;
+		int mergedArr[] = new int[totalLength];
+		int leftIndex = 0, rightIndex = 0;
+		for (int i = 0; i < totalLength; ++i) {
+			if (leftIndex == left.length) {
+				mergedArr[i] = right[rightIndex];
+				rightIndex++;
+			} else if (rightIndex == right.length) {
+				mergedArr[i] = left[leftIndex];
+				leftIndex++;
+			} else if (left[leftIndex] > right[rightIndex]) {
+				mergedArr[i] = right[rightIndex];
+				rightIndex++;
+			} else {
+				mergedArr[i] = left[leftIndex];
+				leftIndex++;
+			}
+		}
+		return mergedArr;
 	}
 }
 
