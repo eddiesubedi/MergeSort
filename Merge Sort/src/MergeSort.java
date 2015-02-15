@@ -22,7 +22,7 @@ import javax.swing.border.EmptyBorder;
 
 public class MergeSort {
 	public static void main(String[] args) {
-		int[] value = {1,2,3,4,5,6,7,8,9,10};
+		int[] value = {98,2,35,819,34,981,65,91,35,981,35};
 		sort(value);
 	}
 
@@ -39,15 +39,22 @@ public class MergeSort {
 			right[j]=value[i];
 			i++;
 		}
-		if(left.length!=1){
+		if(left.length!=1 && right.length!=1){
 			sort(left);
-		}
-		if(right.length!=1){
 			sort(right);
 		}
-		System.out.println("LEFT "+Arrays.toString(left));
-		System.out.println("Right "+Arrays.toString(right));
-		System.out.println("=======================");
+		int totalLength = left.length + right.length;
+		if(totalLength<=3){
+			System.out.println("LEFT "+Arrays.toString(left));
+			System.out.println("Right "+Arrays.toString(right));
+			System.out.println("=================================");
+		}
+		
+	}
+	public int[] merge(int[] left, int[] right){
+		int result[] = new int[left.length+right.length];
+		
+		return null;
 	}
 }
 class GuiSetup extends JFrame{
