@@ -28,16 +28,21 @@ public class MergeSort {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				try {
+					//split new lines
 					String[] lines = gui.inputTxtArea.getText().split(
 							"\r\n|\r|\n");
 					String output = "";
 					for (int i = 0; i < lines.length; i++) {
+						//split spaces between each number
 						String[] arr = lines[i].split("\\s+");
 						int[] ints = new int[arr.length];
+						//convert string array to integer array
 						for (int j = 0; j < arr.length; j++) {
 							ints[j] = Integer.parseInt(arr[j]);
 						}
+						//sort the list
 						int[] sortedList = sort(ints);
+						//calculate median an d print it
 						output = output + Arrays.toString(sortedList)
 								+ " Median = " + round(median(sortedList))
 								+ "\n";
@@ -68,9 +73,12 @@ public class MergeSort {
 	}
 
 	public static double median(int[] value) {
+		//check if it has odd or even amount of entries
 		if (value.length % 2 == 1) {
+			//Calculate the median
 			return value[value.length / 2];
 		} else {
+			//calculate the median
 			return (value[value.length / 2 - 1] + value[value.length / 2]) / 2.0;
 		}
 	}
@@ -82,47 +90,63 @@ public class MergeSort {
 		int[] right = new int[rightSize];
 		int totalLength = left.length + right.length;
 		int i = 0;
+		//split the array and populate the left side of the array
 		for (i = 0; i < leftSize; i++) {
 			left[i] = value[i];
 		}
+		//split the array and populate the right side of the array
 		for (int j = 0; j < rightSize; j++) {
 			right[j] = value[i];
 			i++;
 		}
+		//ignore the intermediate step and only focus on the last step of the splitting process
 		if (totalLength <= 3) {
+			//sort the array
+			//if the left array has the size of two sort that
 			if (left.length == 2 && left[0] > left[1]) {
 				int temp = left[0];
 				left[0] = left[1];
 				left[1] = temp;
 			}
+			//if the right array has the size of two sort that
 			if (right.length == 2 && right[0] > right[1]) {
 				int temp = right[0];
 				right[0] = right[1];
 				right[1] = temp;
 			}
 		}
+		//call the method again and stop when the length of the array are not equal to one
 		if (left.length != 1 && right.length != 1) {
 			left = sort(left);
 			right = sort(right);
 		}
+		//merge the values
 		value = merge(left, right);
 		return value;
 	}
 
 	private static int[] merge(int[] left, int[] right) {
 		int totalLength = left.length + right.length;
+		//this array will contain the sorted merged data
 		int mergedArr[] = new int[totalLength];
+		//Create indexes
 		int leftIndex = 0, rightIndex = 0;
+		//use the for loop to populate the merged array
 		for (int i = 0; i < totalLength; ++i) {
+			//check if it is at the end of the array if so add it to the merged array
 			if (leftIndex == left.length) {
 				mergedArr[i] = right[rightIndex];
 				rightIndex++;
+				//check if it is at the end of the array if so add it to the merged array
 			} else if (rightIndex == right.length) {
 				mergedArr[i] = left[leftIndex];
 				leftIndex++;
+				//check if the next element in the left is greater than the next element on the right. If so add the 
+				//right element to the merged array
 			} else if (left[leftIndex] > right[rightIndex]) {
 				mergedArr[i] = right[rightIndex];
 				rightIndex++;
+				//exactly the same as the last else if but check for the left side
 			} else {
 				mergedArr[i] = left[leftIndex];
 				leftIndex++;
