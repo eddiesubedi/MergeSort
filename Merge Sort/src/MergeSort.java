@@ -7,6 +7,8 @@ import java.awt.GridLayout;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.Arrays;
 
 import javax.swing.JButton;
@@ -26,23 +28,51 @@ public class MergeSort {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				try {
-					String[] lines = gui.inputTxtArea.getText().split("\r\n|\r|\n");
-					String output = "Sorted List\n";
-					for(int i =0;i<lines.length;i++){
+					String[] lines = gui.inputTxtArea.getText().split(
+							"\r\n|\r|\n");
+					String output = "";
+					for (int i = 0; i < lines.length; i++) {
 						String[] arr = lines[i].split("\\s+");
 						int[] ints = new int[arr.length];
-						for (int j=0; j < arr.length; j++) {
-					        ints[j] = Integer.parseInt(arr[j]);
-					    }
+						for (int j = 0; j < arr.length; j++) {
+							ints[j] = Integer.parseInt(arr[j]);
+						}
 						int[] sortedList = sort(ints);
-						output = output+Arrays.toString(sortedList)+"\n";
+						output = output + Arrays.toString(sortedList)
+								+ " Median = " + round(median(sortedList))
+								+ "\n";
 					}
 					gui.outputTextArea.setText(output);
+				} catch (NumberFormatException e2) {
+					gui.outputTextArea
+							.setText("Error, Please remove the empty line");
 				} catch (Exception e2) {
-					gui.outputTextArea.setText("Error, wrong input format\n Enter each number sperated by a space\n And no empty Lines\n Try again");
+					gui.outputTextArea
+							.setText("Error, wrong input format\n Enter each number sperated by a space\n And no empty Lines\n Try again");
 				}
 			}
 		});
+		gui.btnReset.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				gui.inputTxtArea.setText("");
+				gui.outputTextArea.setText("Enter you data in each line sperate by space. You can also add multiple entieres on diffrent lines. Example on the left");
+			}
+		});
+	}
+
+	public static double round(double value) {
+		BigDecimal bigDecimal = new BigDecimal(value);
+		return bigDecimal.setScale(2, RoundingMode.HALF_UP).doubleValue();
+	}
+
+	public static double median(int[] value) {
+		if (value.length % 2 == 1) {
+			return value[value.length / 2];
+		} else {
+			return (value[value.length / 2 - 1] + value[value.length / 2]) / 2.0;
+		}
 	}
 
 	private static int[] sort(int value[]) {
@@ -169,6 +199,7 @@ class GuiSetup extends JFrame {
 		centerRightTxtArea.setLayout(new CardLayout(0, 0));
 
 		outputTextArea = new JTextPane();
+		outputTextArea.setText("Enter you data in each line sperate by space. You can also add multiple entieres on diffrent lines. Example on the left");
 		outputTextArea.setEditable(false);
 
 		JScrollPane outputScrollPane = new JScrollPane(outputTextArea);
@@ -184,8 +215,8 @@ class GuiSetup extends JFrame {
 		btnReset = new JButton("Reset");
 		buttompanel.add(btnReset);
 
-		inputTxtArea.setText("5 6 8 9 7 8 1 0 1123 456 2 3 0 4\n6 8 5 4 5 2 0 20 1 2 4 5");
-		outputTextArea.setText("Sorted List:");
+		inputTxtArea
+				.setText("5 6 8 9 7 8 1 0 1123 456 2 3 0 4\n6 8 5 4 5 2 0 20 1 2 4 5");
 
 		setTitle("Merge Sort");
 		setSize((int) (Toolkit.getDefaultToolkit().getScreenSize().getWidth() / 4),
