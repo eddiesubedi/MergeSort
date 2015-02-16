@@ -5,6 +5,8 @@ import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.Arrays;
 
 import javax.swing.JButton;
@@ -19,9 +21,28 @@ import javax.swing.border.EmptyBorder;
 
 public class MergeSort {
 	public static void main(String[] args) {
-		int[] value = {8,894,489,8849,849,68,84,84849,849,849,894,89,8484,894,894,849,84 };
-		int[] a = sort(value);
-		System.out.println(Arrays.toString(a));
+		final GuiSetup gui = new GuiSetup();
+		gui.btnSort.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				try {
+					String[] lines = gui.inputTxtArea.getText().split("\r\n|\r|\n");
+					String output = "Sorted List\n";
+					for(int i =0;i<lines.length;i++){
+						String[] arr = lines[i].split("\\s+");
+						int[] ints = new int[arr.length];
+						for (int j=0; j < arr.length; j++) {
+					        ints[j] = Integer.parseInt(arr[j]);
+					    }
+						int[] sortedList = sort(ints);
+						output = output+Arrays.toString(sortedList)+"\n";
+					}
+					gui.outputTextArea.setText(output);
+				} catch (Exception e2) {
+					gui.outputTextArea.setText("Error, wrong input format\n Enter each number sperated by a space\n And no empty Lines\n Try again");
+				}
+			}
+		});
 	}
 
 	private static int[] sort(int value[]) {
@@ -163,8 +184,7 @@ class GuiSetup extends JFrame {
 		btnReset = new JButton("Reset");
 		buttompanel.add(btnReset);
 
-		inputTxtArea
-				.setText("5 6 8 9 7 8 1 0 1123 456 2 3 0 4\n6 8 5 4 5 2 0 20 1 2 4 5");
+		inputTxtArea.setText("5 6 8 9 7 8 1 0 1123 456 2 3 0 4\n6 8 5 4 5 2 0 20 1 2 4 5");
 		outputTextArea.setText("Sorted List:");
 
 		setTitle("Merge Sort");
